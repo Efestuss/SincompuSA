@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class ConexionBD {
 

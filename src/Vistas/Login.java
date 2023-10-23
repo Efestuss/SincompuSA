@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class Login extends javax.swing.JFrame {
 

@@ -6,7 +6,7 @@ package Vistas;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class frmAdmin extends javax.swing.JFrame {
 
