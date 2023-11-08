@@ -5,6 +5,7 @@
 package Vistas;
 
 import Modelo.ConexionBD;
+import Modelo.Excepciones;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
@@ -227,17 +228,21 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        //Manejo de excepciones
+         //Manejo de excepciones
         try {
             if (validarAcceso()) {
                 // Acceso válido, abre el formulario correspondiente
             }
+        } catch (Excepciones.CredencialesInvalidasException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Excepciones.UsuarioNoExistenteException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Excepciones.CuentaBloqueadaException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(null, "Error al cargar el controlador de la base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error desconocido: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
 
@@ -297,18 +302,28 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtContrasenaFocusLost
 
+    // Contador para realizar seguimiento de los intentos fallidos
+    private int intentosFallidos = 0;
+    private long bloqueoTiempo = 0; // Tiempo de bloqueo
+
     // Método para validar el acceso
-    private boolean validarAcceso() throws SQLException, ClassNotFoundException {
+    private boolean validarAcceso() throws SQLException, ClassNotFoundException, Excepciones.CuentaBloqueadaException, Excepciones.UsuarioNoExistenteException, Excepciones.CredencialesInvalidasException {
+        if (bloqueoTiempo > System.currentTimeMillis()) {
+            throw new Excepciones.CuentaBloqueadaException("Cuenta bloqueada. Espere un momento antes de intentar nuevamente.");
+        }
+
         String usuario = txtUsuario.getText();
         char[] contrasenaChars = txtContrasena.getPassword();
         String contrasena = new String(contrasenaChars);
-        
-// Resto del código de validarAcceso
 
-        // Verificar que no haya campos vacíos
-        if (usuario.isEmpty() || contrasena.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.", "Error", JOptionPane.ERROR_MESSAGE);
+        // Verificar que el campo de contraseña esté vacío y que el campo de usuario no sea el texto predeterminado
+        if (usuario.equals("Ingrese su nombre de usuario") || contrasena.equals("**")) {
             return false;
+        }
+
+        // Verificar si el usuario existe
+        if (!existeUsuario(usuario)) {
+            throw new Excepciones.UsuarioNoExistenteException("Usuario no existe en el sistema.");
         }
 
         // Consulta SQL para verificar el usuario y la contraseña en la base de datos
@@ -324,20 +339,60 @@ public class Login extends javax.swing.JFrame {
             if (rs.next()) {
                 String rol = rs.getString("rol");
 
+                // Reiniciar el contador de intentos fallidos
+                intentosFallidos = 0;
+                bloqueoTiempo = 0; // Reiniciar el tiempo de bloqueo
+
                 abrirFormulario(usuario, contrasena, rol);
                 return true;
             } else {
-                JOptionPane.showMessageDialog(null, "Credenciales incorrectas.", "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
+                // Incrementar el contador de intentos fallidos
+                intentosFallidos++;
+
+                if (intentosFallidos >= 3) {
+                    bloqueoTiempo = System.currentTimeMillis() + 10000; // Bloquear durante 10 segundos
+                    throw new Excepciones.CuentaBloqueadaException("Cuenta bloqueada. Espere un momento antes de intentar nuevamente.");
+                } else {
+                    throw new Excepciones.CredencialesInvalidasException("Credenciales incorrectas.");
+                }
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-            return false;
+            throw new SQLException("Error al acceder a la base de datos: " + e.getMessage());
         } finally {
-
             conexionBD.closeConnection(); // Cerrar la conexión a la base de datos
         }
+    }
+    
+    // Método para verificar la existencia del usuario
+    private boolean existeUsuario(String nombreUsuario) {
+        boolean existe = false;
+        try {
+            conexionBD.openConnection();
+
+            // Crear la sentencia SQL para verificar si el nombre de usuario existe
+            String sql = "SELECT COUNT(*) FROM Usuarios WHERE nombreUsuario = ?";
+            PreparedStatement statement = conexionBD.getConnection().prepareStatement(sql);
+            statement.setString(1, nombreUsuario);
+
+            // Ejecutar la consulta
+            ResultSet rs = statement.executeQuery();
+
+            // Verificar si hay filas en el resultado
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                existe = (count > 0);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error al verificar la existencia del usuario: " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                conexionBD.closeConnection();
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+        return existe;
     }
 
 // Método para abrir el formulario

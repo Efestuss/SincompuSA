@@ -109,9 +109,6 @@ public class frmBodeguero extends javax.swing.JFrame {
         btnIventario.setBackground(new java.awt.Color(128, 128, 197));
         btnIventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnIventario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnIventarioMouseClicked(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnIventarioMouseEntered(evt);
             }
@@ -154,9 +151,6 @@ public class frmBodeguero extends javax.swing.JFrame {
         btnReportes.setBackground(new java.awt.Color(71, 71, 170));
         btnReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReportes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnReportesMouseClicked(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnReportesMouseEntered(evt);
             }
@@ -482,13 +476,6 @@ public class frmBodeguero extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseClicked
-
-        frmInventario inventario = new frmInventario();
-        inventario.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnIventarioMouseClicked
-
     private void btnIventarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseEntered
 
         setColor(btnIventario);
@@ -500,13 +487,6 @@ public class frmBodeguero extends javax.swing.JFrame {
         resetColor(btnIventario);
         resetColor(btnReportes);
     }//GEN-LAST:event_btnIventarioMouseExited
-
-    private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
-
-        frmReportes reportes = new frmReportes();
-        reportes.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnReportesMouseClicked
 
     private void btnReportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseEntered
 
