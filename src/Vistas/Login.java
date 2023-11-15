@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  *
@@ -230,9 +232,17 @@ public class Login extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
          //Manejo de excepciones
         try {
-            if (validarAcceso()) {
+            
+            String nombreUsuario = txtUsuario.getText();
+            // Obtener la contraseña del campo de texto
+            char[] contrasena = txtContrasena.getPassword();
+
+            // Convertir el arreglo de caracteres a una cadena
+            String contrasenaEnCadena = new String(contrasena);
+            if (validarAcceso(nombreUsuario, contrasenaEnCadena)) {
                 // Acceso válido, abre el formulario correspondiente
             }
+            
         } catch (Excepciones.CredencialesInvalidasException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         } catch (Excepciones.UsuarioNoExistenteException e) {
@@ -307,7 +317,7 @@ public class Login extends javax.swing.JFrame {
     private long bloqueoTiempo = 0; // Tiempo de bloqueo
 
     // Método para validar el acceso
-    private boolean validarAcceso() throws SQLException, ClassNotFoundException, Excepciones.CuentaBloqueadaException, Excepciones.UsuarioNoExistenteException, Excepciones.CredencialesInvalidasException {
+    public boolean validarAcceso(String nombreUsuario, String contrasenaEnCadena) throws SQLException, ClassNotFoundException, Excepciones.CuentaBloqueadaException, Excepciones.UsuarioNoExistenteException, Excepciones.CredencialesInvalidasException {
         if (bloqueoTiempo > System.currentTimeMillis()) {
             throw new Excepciones.CuentaBloqueadaException("Cuenta bloqueada. Espere un momento antes de intentar nuevamente.");
         }
@@ -317,7 +327,7 @@ public class Login extends javax.swing.JFrame {
         String contrasena = new String(contrasenaChars);
 
         // Verificar que el campo de contraseña esté vacío y que el campo de usuario no sea el texto predeterminado
-        if (usuario.equals("Ingrese su nombre de usuario") || contrasena.equals("**")) {
+        if (usuario.equals("Ingrese su nombre de usuario") || contrasena.equals("******")) {
             return false;
         }
 
@@ -364,7 +374,7 @@ public class Login extends javax.swing.JFrame {
     }
     
     // Método para verificar la existencia del usuario
-    private boolean existeUsuario(String nombreUsuario) {
+    public boolean existeUsuario(String nombreUsuario) {
         boolean existe = false;
         try {
             conexionBD.openConnection();
@@ -413,6 +423,22 @@ public class Login extends javax.swing.JFrame {
         }
     }
 
+    public JTextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public void setTxtUsuario(JTextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
+    }
+
+    public JPasswordField getTxtContrasena() {
+        return txtContrasena;
+    }
+
+    public void setTxtContrasena(JPasswordField txtContrasena) {
+        this.txtContrasena = txtContrasena;
+    }
+    
     /**
      * @param args the command line arguments
      */
