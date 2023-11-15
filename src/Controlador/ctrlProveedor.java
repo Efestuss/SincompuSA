@@ -271,7 +271,11 @@ public class ctrlProveedor {
     public void eliminarTaller(String idProveedor) {
         try {
             conexionBD.openConnection();
-
+            
+            if (proveedorAsociadoAProducto(idProveedor)) {
+                JOptionPane.showMessageDialog(null, "No se puede eliminar el proveedor porque está asociado a uno o más productos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             // Crear la sentencia SQL para llamar al stored procedure de eliminar taller
             String sql = "CALL EliminarProveedor(?)";
 
@@ -292,6 +296,35 @@ public class ctrlProveedor {
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
+    }
+
+    private boolean proveedorAsociadoAProducto(String idProveedor) throws ClassNotFoundException {
+        boolean proveedorAsociado = false;
+
+        try {
+            conexionBD.openConnection();
+            // Consulta SQL para verificar si el proveedor está asociado a algún producto
+            String query = "SELECT COUNT(*) FROM Productos WHERE Proveedor = ?";
+            try ( PreparedStatement stmt = conexionBD.getConnection().prepareStatement(query)) {
+                stmt.setString(1, idProveedor);
+
+                try ( ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        // Si el recuento es mayor que 0, significa que el proveedor está asociado a productos
+                        proveedorAsociado = rs.getInt(1) > 0;
+                    }
+                }
+            }
+
+            // Cierra la conexión a la base de datos
+            conexionBD.closeConnection();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Manejo de la excepción (puedes lanzarla o manejarla según tu necesidad)
+        }
+
+        return proveedorAsociado;
     }
 
 }

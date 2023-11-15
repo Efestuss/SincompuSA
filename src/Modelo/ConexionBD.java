@@ -60,4 +60,9 @@ public class ConexionBD {
             }
         }
     }
+    
+    public boolean isConnected() throws SQLException {
+        return connection != null && !connection.isClosed();
+    }
+    
 }
