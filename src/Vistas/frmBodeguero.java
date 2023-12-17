@@ -626,7 +626,8 @@ public class frmBodeguero extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnMiPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMiPerfilMouseClicked
-        frmMiPerfilBodeguero miPerfil = new frmMiPerfilBodeguero();
+        String usuario = lblNombreUsuario.getText();
+        frmMiPerfilBodeguero miPerfil = new frmMiPerfilBodeguero(this);
         miPerfil.setVisible(true);
     }//GEN-LAST:event_btnMiPerfilMouseClicked
 
@@ -672,7 +673,8 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     // Método para obtener el usuario
     public String obtenerUsuario() {
-        return usuario;
+        String user = lblNombreUsuario.getText();
+        return user;
     }
 
     // Método para obtener la contraseña
@@ -705,7 +707,10 @@ public class frmBodeguero extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-
+   // Método para actualizar el nombre de usuario
+    public void actualizarNombreUsuario(String nuevoNombreUsuario) {
+        lblNombreUsuario.setText(nuevoNombreUsuario);
+    }
     /**
      * @param args the command line arguments
      */
