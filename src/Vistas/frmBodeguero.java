@@ -102,7 +102,7 @@ public class frmBodeguero extends javax.swing.JFrame {
         salirPanel = new javax.swing.JPanel();
         lblLogout = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
+        btnMiPerfil = new javax.swing.JLabel();
         panelSuperior = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -288,9 +288,15 @@ public class frmBodeguero extends javax.swing.JFrame {
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
-        jLabel21.setBackground(new java.awt.Color(72, 61, 79));
-        jLabel21.setForeground(new java.awt.Color(60, 63, 65));
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/profile.png"))); // NOI18N
+        btnMiPerfil.setBackground(new java.awt.Color(72, 61, 79));
+        btnMiPerfil.setForeground(new java.awt.Color(60, 63, 65));
+        btnMiPerfil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/profile.png"))); // NOI18N
+        btnMiPerfil.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMiPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMiPerfilMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout BtnOpcion7Layout = new javax.swing.GroupLayout(BtnOpcion7);
         BtnOpcion7.setLayout(BtnOpcion7Layout);
@@ -298,7 +304,7 @@ public class frmBodeguero extends javax.swing.JFrame {
             BtnOpcion7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(BtnOpcion7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnMiPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
@@ -310,7 +316,7 @@ public class frmBodeguero extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BtnOpcion7Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(salirPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnMiPerfil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout sideBarPanelLayout = new javax.swing.GroupLayout(sideBarPanel);
@@ -619,6 +625,11 @@ public class frmBodeguero extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    private void btnMiPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMiPerfilMouseClicked
+        frmMiPerfilBodeguero miPerfil = new frmMiPerfilBodeguero();
+        miPerfil.setVisible(true);
+    }//GEN-LAST:event_btnMiPerfilMouseClicked
+
     //Método para cargar datos
     public void cargarDatos() throws ClassNotFoundException, SQLException {
         DefaultTableModel modelo = (DefaultTableModel) jTableInventario.getModel();
@@ -737,6 +748,7 @@ public class frmBodeguero extends javax.swing.JFrame {
     private javax.swing.JPanel bgPanelBotones;
     private javax.swing.JPanel bgPanelTabla;
     private javax.swing.JPanel btnIventario;
+    private javax.swing.JLabel btnMiPerfil;
     private javax.swing.JButton btnModificar;
     private javax.swing.JPanel btnReportes;
     private com.toedter.calendar.JDateChooser jDateFechaYHoraActual;
@@ -747,7 +759,6 @@ public class frmBodeguero extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
