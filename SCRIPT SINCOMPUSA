@@ -286,6 +286,7 @@ BEGIN
 END;
 /
 select *from usuarios
+
 -- Crear la tabla Reportes con el formato deseado para Fecha_Modificacion
 CREATE TABLE Reportes (
     Id_Producto VARCHAR2(50),
@@ -306,5 +307,6 @@ BEGIN
     :NEW.Fecha_Modificacion := TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'DD-MON-YY HH.MI.SS PM'), 'DD-MON-YY HH:MI:SS PM');
 END;
 /
+
 
 
