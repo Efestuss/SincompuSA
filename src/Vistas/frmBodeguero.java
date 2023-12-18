@@ -527,9 +527,7 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     private void btnIventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseClicked
 
-        frmInventario inventario = new frmInventario();
-        inventario.setVisible(true);
-        this.dispose();
+       
     }//GEN-LAST:event_btnIventarioMouseClicked
 
     private void btnIventarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseEntered
@@ -540,7 +538,7 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     private void btnIventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseExited
 
-        resetColor(btnIventario);
+        setColor(btnIventario);
         resetColor(btnReportes);
     }//GEN-LAST:event_btnIventarioMouseExited
 
@@ -560,7 +558,7 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     private void btnReportesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseExited
 
-        resetColor(btnIventario);
+        setColor(btnIventario);
         resetColor(btnReportes);
     }//GEN-LAST:event_btnReportesMouseExited
 

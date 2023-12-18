@@ -8,6 +8,7 @@ import Controlador.ctrlBodegueroInventario;
 import Modelo.Inventario;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.event.ItemEvent;
 import java.lang.System.Logger;
 import java.sql.SQLException;
 import java.util.List;
@@ -510,14 +511,11 @@ public class frmReportesBodeguero extends javax.swing.JFrame {
     private void btnIventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseExited
 
         resetColor(btnIventario);
-        resetColor(btnReportes);
+        setColor(btnReportes);
     }//GEN-LAST:event_btnIventarioMouseExited
 
     private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
 
-        frmReportes reportes = new frmReportes();
-        reportes.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnReportesMouseClicked
 
     private void btnReportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseEntered
@@ -529,7 +527,7 @@ public class frmReportesBodeguero extends javax.swing.JFrame {
     private void btnReportesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseExited
 
         resetColor(btnIventario);
-        resetColor(btnReportes);
+        setColor(btnReportes);
     }//GEN-LAST:event_btnReportesMouseExited
 
     private void lblLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseClicked
@@ -562,45 +560,58 @@ public class frmReportesBodeguero extends javax.swing.JFrame {
     }//GEN-LAST:event_lblExitMouseExited
 
     private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
+
         // Método para filtrar la tabla según el estado
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            try {
+                // Obtener el estado seleccionado
+                int estadoSeleccionado = cmbEstado.getSelectedIndex();
 
-        try {
-            // Obtener el estado seleccionado
-            int estadoSeleccionado = cmbEstado.getSelectedIndex();
+                // Obtener el modelo de la tabla
+                DefaultTableModel modeloTabla = (DefaultTableModel) jTableInventario.getModel();
 
-            // Obtener el modelo de la tabla
-            DefaultTableModel modeloTabla = (DefaultTableModel) jTableInventario.getModel();
+                // Limpiar la tabla
+                modeloTabla.setRowCount(0);
 
-            // Limpiar la tabla
-            modeloTabla.setRowCount(0);
+                // Obtener la lista completa de productos
+                ctrlBodegueroInventario controlador = new ctrlBodegueroInventario();
+                List<Inventario> inventario = controlador.obtenerInventario();
 
-            // Obtener la lista completa de productos
-            ctrlBodegueroInventario controlador = new ctrlBodegueroInventario();
-            List<Inventario> inventario = controlador.obtenerInventario();
+                // Contador para el total de productos
+                int totalProductos = 0;
 
-            // Filtrar y mostrar los productos según el estado seleccionado
-            for (Inventario inv : inventario) {
-                if ((estadoSeleccionado == 1 && inv.getCantidad() > 0)
-                        || // Mostrar productos en stock
-                        (estadoSeleccionado == 2 && inv.getCantidad() == 0)
-                        || // Mostrar productos agotados
-                        (estadoSeleccionado == 0)) {  // Mostrar todos los productos
-                 
-                    // Agregar la fila a la tabla
-                    String estado = calcularEstado(inv.getCantidad());
-                    modeloTabla.addRow(new Object[]{inv.getIdProducto(), inv.getNombre(), inv.getCantidad(), inv.getPrecio(), inv.getCategoria(), inv.getProveedor(), estado});
-                       // Actualizar el total de productos
-                    actualizarTotalProductos();
+                // Filtrar y mostrar los productos según el estado seleccionado
+                for (Inventario inv : inventario) {
+                    if ((estadoSeleccionado == 1 && inv.getCantidad() > 0)
+                            || // Mostrar productos en stock
+                            (estadoSeleccionado == 2 && inv.getCantidad() == 0)
+                            || // Mostrar productos agotados
+                            (estadoSeleccionado == 0)) {  // Mostrar todos los productos
+
+                        // Agregar la fila a la tabla
+                        String estado = calcularEstado(inv.getCantidad());
+                        modeloTabla.addRow(new Object[]{inv.getIdProducto(), inv.getNombre(), inv.getCantidad(), inv.getPrecio(), inv.getCategoria(), inv.getProveedor(), estado});
+
+                        // Incrementar el total de productos
+                        totalProductos += 1;
+                    }
                 }
+
+                // Actualizar el total de productos
+                actualizarTotalProductos();
+
+                // Verificar si no hay registros
+                if (totalProductos == 0) {
+                    JOptionPane.showMessageDialog(this, "No hay registros", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (ClassNotFoundException ex) {
+                // Manejar la excepción apropiadamente (puedes mostrar un mensaje de error, por ejemplo)
+                ex.printStackTrace();
             }
-        } catch (ClassNotFoundException ex) {
-            // Manejar la excepción apropiadamente (puedes mostrar un mensaje de error, por ejemplo)
-            ex.printStackTrace();
         }
-
     }//GEN-LAST:event_cmbEstadoItemStateChanged
-    //Método para cargar datos
 
+    //Método para cargar datos
     public void cargarDatos() throws ClassNotFoundException, SQLException {
         DefaultTableModel modelo = (DefaultTableModel) jTableInventario.getModel();
         modelo.setRowCount(0); // Limpia los datos existentes en la tabla
