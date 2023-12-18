@@ -492,8 +492,8 @@ public class frmBodeguero extends javax.swing.JFrame {
                 .addComponent(bgPanelBotonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(24, 24, 24))
             .addGroup(bgPanelBotonesLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(20, 20, 20)
+                .addGroup(bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jDateFechaYHoraActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -527,9 +527,7 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     private void btnIventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseClicked
 
-        frmInventario inventario = new frmInventario();
-        inventario.setVisible(true);
-        this.dispose();
+       
     }//GEN-LAST:event_btnIventarioMouseClicked
 
     private void btnIventarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseEntered
@@ -540,7 +538,7 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     private void btnIventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseExited
 
-        resetColor(btnIventario);
+        setColor(btnIventario);
         resetColor(btnReportes);
     }//GEN-LAST:event_btnIventarioMouseExited
 
@@ -560,7 +558,7 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     private void btnReportesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseExited
 
-        resetColor(btnIventario);
+        setColor(btnIventario);
         resetColor(btnReportes);
     }//GEN-LAST:event_btnReportesMouseExited
 

@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,7 +81,7 @@ public class ctrlBodegueroInventario {
         return inventario;
     }
 
-    //Método para actualizar un producto
+    // Método para actualizar un producto y añadirlo a la tabla de reportes
     public static void actualizarProductoInventario(String Id_Producto, int cantidad) throws SQLException, ClassNotFoundException {
         ConexionBD conexionBD = new ConexionBD();
         Connection conn = null;
@@ -132,8 +133,8 @@ public class ctrlBodegueroInventario {
             conexionBD.closeConnection(); // Cierra la conexión
         }
     }
-    //Método para cargar datos en la tabla 
 
+    //Método para cargar datos en la tabla 
     public void cargarDatosTablaInventario(DefaultTableModel modeloTabla) {
         try {
             conexionBD.openConnection();
@@ -153,8 +154,6 @@ public class ctrlBodegueroInventario {
                 String categoria = resultSet.getString("Categoria");
                 String proveedor = resultSet.getString("Proveedor");
 
-               
-                
                 // Agrega el valor del estado al modelo de la tabla
                 Object[] fila = {id, nombre, cantidad, precio, categoria, proveedor};
                 modeloTabla.addRow(fila);
