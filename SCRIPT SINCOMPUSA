@@ -229,19 +229,36 @@ END;
 /
 
 --Procedimiento para actualizar la cantidad en el inventario
-create or replace NONEDITIONABLE PROCEDURE ModificarCantidadInventario(
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE ModificarCantidadInventario(
     p_IdProducto IN VARCHAR2,
     p_NuevaCantidad IN NUMBER
 ) AS
+    v_FechaModificacion DATE;
+    v_Estado VARCHAR2(50);
 BEGIN
+    -- Obtener la fecha y hora actual
+    SELECT SYSTIMESTAMP INTO v_FechaModificacion FROM DUAL;
+
     -- Actualizar la cantidad del producto en el inventario
     UPDATE Inventario
     SET Cantidad = p_NuevaCantidad
     WHERE Id_Producto = p_IdProducto;
 
+    -- Obtener el nuevo estado en función de la cantidad
+    SELECT CASE WHEN p_NuevaCantidad > 0 THEN 'EN STOCK' ELSE 'AGOTADO' END
+    INTO v_Estado
+    FROM DUAL;
+
+    -- Insertar un registro en la tabla Reportes
+    INSERT INTO Reportes (Id_Producto, Nombre, Cantidad, Precio, Categoria, Proveedor, Estado, Fecha_Modificacion)
+    SELECT Id_Producto, Nombre, Cantidad, Precio, Categoria, Proveedor, v_Estado, v_FechaModificacion
+    FROM Inventario
+    WHERE Id_Producto = p_IdProducto;
+
     -- Confirmar la actualización
     COMMIT;
 END;
+/
 
 CREATE OR REPLACE TRIGGER actualizar_cantidad
 AFTER UPDATE OF Cantidad ON Inventario
@@ -269,32 +286,27 @@ BEGIN
 END;
 /
 select *from usuarios
---Procedimiento para actualizar usuario
-CREATE OR REPLACE PROCEDURE ACTUALIZARUSUARIO(
-    P_NOMBREUSUARIO IN VARCHAR2,
-    P_NUEVONOMBREUSUARIO IN VARCHAR2,
-    P_NUEVACONTRASENA IN VARCHAR2
-) AS
-    EXISTEUSUARIO NUMBER;
 
+-- Crear la tabla Reportes con el formato deseado para Fecha_Modificacion
+CREATE TABLE Reportes (
+    Id_Producto VARCHAR2(50),
+    Nombre VARCHAR2(100),
+    Cantidad NUMBER,
+    Precio NUMBER,
+    Categoria VARCHAR2(50),
+    Proveedor VARCHAR2(50),
+    Estado VARCHAR2(50),
+    Fecha_Modificacion TIMESTAMP
+);
+
+-- Crear un formato personalizado para la columna Fecha_Modificacion
+CREATE OR REPLACE TRIGGER reportes_formato_fecha
+BEFORE INSERT ON Reportes
+FOR EACH ROW
 BEGIN
-    -- Verificar si el nuevo nombre de usuario ya existe
-    SELECT COUNT(*)
-    INTO EXISTEUSUARIO
-    FROM USUARIOS
-    WHERE NOMBREUSUARIO = P_NUEVONOMBREUSUARIO AND NOMBREUSUARIO <> P_NOMBREUSUARIO;
-
-    -- Si el nuevo nombre de usuario ya existe, mostrar un mensaje de error
-    IF EXISTEUSUARIO > 0 THEN
-        DBMS_OUTPUT.PUT_LINE('El nuevo nombre de usuario ya existe. Por favor, elija otro.');
-    ELSE
-        -- Si no existe, actualizar el usuario
-        UPDATE USUARIOS
-        SET NOMBREUSUARIO = P_NUEVONOMBREUSUARIO, CONTRASENA = P_NUEVACONTRASENA
-        WHERE NOMBREUSUARIO = P_NOMBREUSUARIO;
-
-        DBMS_OUTPUT.PUT_LINE('Usuario actualizado correctamente.');
-    END IF;
-
-END ACTUALIZARUSUARIO;
+    :NEW.Fecha_Modificacion := TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'DD-MON-YY HH.MI.SS PM'), 'DD-MON-YY HH:MI:SS PM');
+END;
 /
+
+
+
