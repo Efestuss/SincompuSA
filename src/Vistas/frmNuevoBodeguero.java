@@ -202,9 +202,6 @@ public class frmNuevoBodeguero extends javax.swing.JFrame {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Confirmar Contraseña");
 
-        txtConfirmarContrasena.setText("jPasswordField1");
-
-        txtContrasena.setText("jPasswordField1");
         txtContrasena.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtContrasenaActionPerformed(evt);

@@ -4,11 +4,14 @@
  */
 package Vistas;
 
+import Controlador.ctrlBodegueroInventario;
 import Controlador.ctrlProveedor;
 import Controlador.ctrlReportes;
+import Modelo.Inventario;
 import Modelo.Proveedor;
 import Modelo.Reporte;
 import java.awt.Color;
+import java.awt.event.ItemEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -142,14 +145,13 @@ public class frmReportes extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableReportes = new javax.swing.JTable();
         bgPanelBotones = new javax.swing.JPanel();
-        bgPanelBotonNuevo = new javax.swing.JPanel();
-        btnBuscar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         lblTotalResultados = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         btnExportarExcel = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        cmbEstado = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -597,21 +599,6 @@ public class frmReportes extends javax.swing.JFrame {
 
         bgPanel.add(bgPanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 840, 370));
 
-        bgPanelBotonNuevo.setForeground(new java.awt.Color(9, 206, 60));
-        bgPanelBotonNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bgPanelBotonNuevo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        btnBuscar.setText("BUSCAR");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-        bgPanelBotonNuevo.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 8, 94, -1));
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/search.png"))); // NOI18N
-        bgPanelBotonNuevo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
-
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTotal.setText("Total Resultados:");
 
@@ -633,6 +620,17 @@ public class frmReportes extends javax.swing.JFrame {
         });
         jPanel1.add(btnExportarExcel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, 140, 30));
 
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel15.setText("Estado");
+
+        cmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un estado...", "EN STOCK", "AGOTADO" }));
+        cmbEstado.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cmbEstado.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbEstadoItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout bgPanelBotonesLayout = new javax.swing.GroupLayout(bgPanelBotones);
         bgPanelBotones.setLayout(bgPanelBotonesLayout);
         bgPanelBotonesLayout.setHorizontalGroup(
@@ -645,24 +643,24 @@ public class frmReportes extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(lblTotalResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 483, Short.MAX_VALUE)
-                .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(311, 311, 311))
         );
         bgPanelBotonesLayout.setVerticalGroup(
             bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTotalResultados)
-                    .addComponent(lblTotal))
-                .addGap(15, 15, 15))
+                    .addComponent(lblTotal)
+                    .addComponent(jLabel15)
+                    .addComponent(cmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13))
         );
 
         bgPanel.add(bgPanelBotones, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, 840, 80));
@@ -830,10 +828,6 @@ public class frmReportes extends javax.swing.JFrame {
         resetColor(btnBodeguero);
     }//GEN-LAST:event_btnBodegueroMouseExited
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
     private void btnExportarExcelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportarExcelMouseClicked
 
         // Verificar si la tabla está vacía antes de exportar a Excel
@@ -844,6 +838,61 @@ public class frmReportes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No hay datos disponibles para exportar", "Información", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnExportarExcelMouseClicked
+
+    private void cmbEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEstadoItemStateChanged
+
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            try {
+                int estadoSeleccionado = cmbEstado.getSelectedIndex();
+                DefaultTableModel modeloTabla = (DefaultTableModel) jTableReportes.getModel();
+                modeloTabla.setRowCount(0);
+
+                ctrlReportes controladorReportes = new ctrlReportes();
+                List<Reporte> reportes = controladorReportes.obtenerReportes();
+
+                int totalProductos = 0;
+
+                for (Reporte reporte : reportes) {
+                    boolean agregarFila = false;
+
+                    switch (estadoSeleccionado) {
+                        case 0:
+                            agregarFila = true;
+                            break;
+                        case 1:
+                            agregarFila = reporte.getCantidad() > 0;
+                            break;
+                        case 2:
+                            agregarFila = reporte.getCantidad() == 0;
+                            break;
+                    }
+
+                    if (agregarFila) {
+                        String estado = calcularEstado(reporte.getCantidad());
+                        modeloTabla.addRow(new Object[]{reporte.getIdProducto(), reporte.getNombre(),
+                            reporte.getCantidad(), reporte.getPrecio(), reporte.getCategoria(),
+                            reporte.getProveedor(), estado, reporte.getFechaModificacion()});
+                        totalProductos++;
+                    }
+                }
+
+                actualizarTotalResultados();
+
+                if (totalProductos == 0) {
+                    JOptionPane.showMessageDialog(this, "No hay registros", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_cmbEstadoItemStateChanged
+    //Método para listar la cantidad de filas o productos 
+
+    private void actualizarTotalResultados() {
+        int totalProductos = jTableReportes.getRowCount();
+        String totalProductosStr = String.valueOf(totalProductos);
+        lblTotalResultados.setText(totalProductosStr);
+    }
 
     //Métodos para establecer y resetear colores 
     void resetColor(JPanel panel) {
@@ -892,22 +941,21 @@ public class frmReportes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BtnOpcion7;
     private javax.swing.JPanel bgPanel;
-    private javax.swing.JPanel bgPanelBotonNuevo;
     private javax.swing.JPanel bgPanelBotones;
     private javax.swing.JPanel bgPanelTabla;
     private javax.swing.JPanel btnBodeguero;
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnExportarExcel;
     private javax.swing.JPanel btnIventario;
     private javax.swing.JPanel btnProductos;
     private javax.swing.JPanel btnProveedores;
     private javax.swing.JPanel btnReportes;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> cmbEstado;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
