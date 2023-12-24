@@ -279,34 +279,6 @@ END;
 /
 select *from usuarios
 
-CREATE OR REPLACE PROCEDURE ACTUALIZARUSUARIO(
-    P_NOMBREUSUARIO IN VARCHAR2,
-    P_NUEVONOMBREUSUARIO IN VARCHAR2,
-    P_NUEVACONTRASENA IN VARCHAR2
-) AS
-    EXISTEUSUARIO NUMBER;
-
--- Crear la tabla Reportes con el formato deseado para Fecha_Modificacion
-CREATE TABLE Reportes (
-    Id_Producto VARCHAR2(50),
-    Nombre VARCHAR2(100),
-    Cantidad NUMBER,
-    Precio NUMBER,
-    Categoria VARCHAR2(50),
-    Proveedor VARCHAR2(50),
-    Estado VARCHAR2(50),
-    Fecha_Modificacion TIMESTAMP
-);
-
--- Crear un formato personalizado para la columna Fecha_Modificacion
-CREATE OR REPLACE TRIGGER reportes_formato_fecha
-BEFORE INSERT ON Reportes
-FOR EACH ROW
-BEGIN
-    :NEW.Fecha_Modificacion := TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'DD-MON-YY HH.MI.SS PM'), 'DD-MON-YY HH:MI:SS PM');
-END;
-/
-
 -- Crear la tabla Reportes con el formato deseado para Fecha_Modificacion
 CREATE TABLE Reportes (
     Id_Producto VARCHAR2(50),
@@ -330,18 +302,3 @@ END;
 
 
 
-select *from reportes
-
--- Crear un procedimiento almacenado para eliminar un bodeguero 
-CREATE OR REPLACE PROCEDURE EliminarBodeguero(
-    p_IdBodeguero IN VARCHAR2
-) AS
-BEGIN
-    -- Eliminar el proveedor con el ID especificado
-    DELETE FROM USUARIOS 
-    WHERE Id = p_IdBodeguero;
-    -- Confirmar la eliminación
-    COMMIT;
-END;
-
-select *from REPORTES
