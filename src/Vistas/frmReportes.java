@@ -147,6 +147,9 @@ public class frmReportes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         lblTotalResultados = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        btnExportarExcel = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -612,27 +615,50 @@ public class frmReportes extends javax.swing.JFrame {
         lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTotal.setText("Total Resultados:");
 
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/sheets.png"))); // NOI18N
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 43, -1));
+
+        btnExportarExcel.setBackground(new java.awt.Color(51, 156, 104));
+        btnExportarExcel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnExportarExcel.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportarExcel.setText("Exportar a Excel");
+        btnExportarExcel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 102, 0), new java.awt.Color(0, 153, 51), null, null));
+        btnExportarExcel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnExportarExcel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExportarExcelMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnExportarExcel, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, 140, 30));
+
         javax.swing.GroupLayout bgPanelBotonesLayout = new javax.swing.GroupLayout(bgPanelBotones);
         bgPanelBotones.setLayout(bgPanelBotonesLayout);
         bgPanelBotonesLayout.setHorizontalGroup(
             bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblTotal)
-                .addGap(18, 18, 18)
-                .addComponent(lblTotalResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 497, Short.MAX_VALUE)
+                .addGroup(bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(bgPanelBotonesLayout.createSequentialGroup()
+                        .addComponent(lblTotal)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblTotalResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 483, Short.MAX_VALUE)
                 .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
         bgPanelBotonesLayout.setVerticalGroup(
             bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTotalResultados)
                     .addComponent(lblTotal))
@@ -808,6 +834,17 @@ public class frmReportes extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void btnExportarExcelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportarExcelMouseClicked
+
+        // Verificar si la tabla está vacía antes de exportar a Excel
+        if (jTableReportes.getRowCount() > 0) {
+            ctrlReportes controlador = new ctrlReportes();
+            controlador.exportarTablaAExcel(jTableReportes);
+        } else {
+            JOptionPane.showMessageDialog(null, "No hay datos disponibles para exportar", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnExportarExcelMouseClicked
+
     //Métodos para establecer y resetear colores 
     void resetColor(JPanel panel) {
         panel.setBackground(new Color(71, 71, 170));
@@ -860,6 +897,7 @@ public class frmReportes extends javax.swing.JFrame {
     private javax.swing.JPanel bgPanelTabla;
     private javax.swing.JPanel btnBodeguero;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnExportarExcel;
     private javax.swing.JPanel btnIventario;
     private javax.swing.JPanel btnProductos;
     private javax.swing.JPanel btnProveedores;
@@ -868,6 +906,7 @@ public class frmReportes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -882,6 +921,7 @@ public class frmReportes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelExit;
     private javax.swing.JScrollPane jScrollPane1;
