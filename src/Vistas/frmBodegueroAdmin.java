@@ -4,8 +4,15 @@
  */
 package Vistas;
 
+import Controlador.ctrlBodegueroAdmin;
+import Controlador.ctrlProveedor;
+import Modelo.Bodeguero;
 import java.awt.Color;
+import java.util.List;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,11 +20,46 @@ import javax.swing.JPanel;
  */
 public class frmBodegueroAdmin extends javax.swing.JFrame {
 
+    private static frmBodegueroAdmin bodeguero;
+    private ctrlBodegueroAdmin controlador = new ctrlBodegueroAdmin();
+
     /**
      * Creates new form frmBodegueroAdmin
      */
     public frmBodegueroAdmin() {
         initComponents();
+        cargarBodeguerosEnTabla();
+
+    }
+
+    public void actualizarTabla() {
+
+        // Actualizar y refrescar la tabla
+        DefaultTableModel modeloTabla = (DefaultTableModel) jTableBodegueros.getModel();
+        modeloTabla.setRowCount(0); // Limpiar todos los datos actuales en la tabla
+
+        // Volver a cargar los datos desde la base de datos
+        ctrlBodegueroAdmin bdAdmin = new ctrlBodegueroAdmin();
+        bdAdmin.cargarDatosTablaBodegueros(modeloTabla);
+
+    }
+
+    public void cargarBodeguerosEnTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) jTableBodegueros.getModel();
+        modelo.setRowCount(0);
+
+        try {
+            List<Bodeguero> bodegueros = controlador.obtenerBodegueros();
+
+            for (Bodeguero bodeguero : bodegueros) {
+                // Siempre establece el rol como "Bodeguero"
+                Object[] fila = {bodeguero.getId(), bodeguero.getNombreUsuario(), bodeguero.getContrasena(), "Bodeguero"};
+                modelo.addRow(fila);
+            }
+        } catch (SQLException e) {
+            // Manejar la excepción según tus necesidades
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -46,7 +88,7 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         BtnOpcion7 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
+        btnMiPerfilAdmin = new javax.swing.JLabel();
         lblNombreUsuario = new javax.swing.JLabel();
         salirPanel = new javax.swing.JPanel();
         lblLogout = new javax.swing.JLabel();
@@ -62,14 +104,11 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
         lblExit = new javax.swing.JLabel();
         bgPanelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTableProductos = new javax.swing.JTable();
+        jTableBodegueros = new javax.swing.JTable();
         bgPanelBotones = new javax.swing.JPanel();
         bgPanelBotonNuevo = new javax.swing.JPanel();
         btnNuevo = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        bgPanelBotonModificar = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        btnModificar = new javax.swing.JButton();
         bgPanelBotonEliminar = new javax.swing.JPanel();
         btnEliminar = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
@@ -278,21 +317,22 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(72, 61, 79));
 
-        jLabel21.setBackground(new java.awt.Color(72, 61, 79));
-        jLabel21.setForeground(new java.awt.Color(60, 63, 65));
-        jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/profile.png"))); // NOI18N
+        btnMiPerfilAdmin.setBackground(new java.awt.Color(72, 61, 79));
+        btnMiPerfilAdmin.setForeground(new java.awt.Color(60, 63, 65));
+        btnMiPerfilAdmin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/profile.png"))); // NOI18N
+        btnMiPerfilAdmin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnMiPerfilAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnMiPerfilAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         lblNombreUsuario.setBackground(new java.awt.Color(204, 204, 204));
@@ -493,16 +533,16 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
 
         bgPanel.add(panelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 710, 90));
 
-        jTableProductos.setModel(new javax.swing.table.DefaultTableModel(
+        jTableBodegueros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "NombreUsuario", "Contraseña"
+                "ID", "NombreUsuario", "Contraseña", "Rol"
             }
         ));
-        jTableProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jScrollPane1.setViewportView(jTableProductos);
+        jTableBodegueros.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jScrollPane1.setViewportView(jTableBodegueros);
 
         javax.swing.GroupLayout bgPanelTablaLayout = new javax.swing.GroupLayout(bgPanelTabla);
         bgPanelTabla.setLayout(bgPanelTablaLayout);
@@ -534,20 +574,6 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/plus (2).png"))); // NOI18N
         bgPanelBotonNuevo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
-        bgPanelBotonModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        bgPanelBotonModificar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/pen.png"))); // NOI18N
-        bgPanelBotonModificar.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
-
-        btnModificar.setText("Modificar");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
-            }
-        });
-        bgPanelBotonModificar.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 8, 94, -1));
-
         bgPanelBotonEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         bgPanelBotonEliminar.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -569,11 +595,9 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
                 .addContainerGap(162, Short.MAX_VALUE)
                 .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bgPanelBotonModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(82, 82, 82)
                 .addComponent(bgPanelBotonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134))
+                .addGap(212, 212, 212))
         );
         bgPanelBotonesLayout.setVerticalGroup(
             bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,7 +605,6 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(bgPanelBotonEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bgPanelBotonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
@@ -621,7 +644,7 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProductosMouseEntered
 
     private void btnProductosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseExited
-        
+
         setColor(btnBodeguero);
         resetColor(btnProveedores);
         resetColor(btnProductos);
@@ -647,7 +670,7 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
 
     private void btnProveedoresMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProveedoresMouseExited
 
-         setColor(btnBodeguero);
+        setColor(btnBodeguero);
         resetColor(btnProveedores);
         resetColor(btnProductos);
         resetColor(btnIventario);
@@ -672,7 +695,7 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
 
     private void btnIventarioMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseExited
 
-         setColor(btnBodeguero);
+        setColor(btnBodeguero);
         resetColor(btnProveedores);
         resetColor(btnProductos);
         resetColor(btnIventario);
@@ -680,10 +703,16 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIventarioMouseExited
 
     private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
-
         frmReportes reportes = new frmReportes();
-        reportes.setVisible(true);
-        this.dispose();
+
+        // Verificar si la tabla está vacía antes de abrir el formulario
+        if (reportes.obtenerCantidadFilasTablaReportes() > 0) {
+            reportes.setVisible(true);
+            this.dispose();
+            System.out.println("Hay datos");
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay datos disponibles", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnReportesMouseClicked
 
     private void btnReportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseEntered
@@ -755,28 +784,49 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_lblExitMouseExited
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        
-        frmNuevoBodeguero bodegueroNuevo = new frmNuevoBodeguero();
+
+        frmNuevoBodeguero bodegueroNuevo = new frmNuevoBodeguero(this);
         bodegueroNuevo.setVisible(true);
-        
+
     }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        
-    }//GEN-LAST:event_btnModificarActionPerformed
-
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        
-       
+        int filaSeleccionada = jTableBodegueros.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un bodeguero para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Está seguro de eliminar este Bodeguero?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            // Obtén el ID del Bodeguero seleccionado en la tabla
+            Object idBodegueroObj = jTableBodegueros.getValueAt(filaSeleccionada, 0);
+            // Verifica si el ID del Bodeguero es nulo
+            if (idBodegueroObj == null) {
+                JOptionPane.showMessageDialog(this, "El ID del Bodeguero seleccionado es nulo.", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("El id es nulo");
+                return;
+            }
+            String idBodeguero = idBodegueroObj.toString();
+            System.out.println("El id no es nulo: " + idBodeguero);
+            // Llama al método para eliminar el Bodeguero
+            ctrlBodegueroAdmin bdAdmin = new ctrlBodegueroAdmin();
+            bdAdmin.eliminarBodeguero(idBodeguero);
+            actualizarTabla();
+        }
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductosMouseClicked
-        
+
         frmAdmin productos = new frmAdmin();
         productos.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnProductosMouseClicked
-//Métodos para establecer y resetear colores 
+    //Métodos para establecer y resetear colores 
+
     void resetColor(JPanel panel) {
         panel.setBackground(new Color(71, 71, 170));
     }
@@ -784,6 +834,7 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
     void setColor(JPanel panel) {
         panel.setBackground(new Color(128, 128, 197));
     }
+
     /**
      * @param args the command line arguments
      */
@@ -823,14 +874,13 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel BtnOpcion7;
     private javax.swing.JPanel bgPanel;
     private javax.swing.JPanel bgPanelBotonEliminar;
-    private javax.swing.JPanel bgPanelBotonModificar;
     private javax.swing.JPanel bgPanelBotonNuevo;
     private javax.swing.JPanel bgPanelBotones;
     private javax.swing.JPanel bgPanelTabla;
     private javax.swing.JPanel btnBodeguero;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JPanel btnIventario;
-    private javax.swing.JButton btnModificar;
+    private javax.swing.JLabel btnMiPerfilAdmin;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JPanel btnProductos;
     private javax.swing.JPanel btnProveedores;
@@ -840,13 +890,11 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -858,7 +906,7 @@ public class frmBodegueroAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelExit;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableProductos;
+    private javax.swing.JTable jTableBodegueros;
     private javax.swing.JLabel lblExit;
     private javax.swing.JLabel lblLogout;
     private javax.swing.JLabel lblNombreUsuario;

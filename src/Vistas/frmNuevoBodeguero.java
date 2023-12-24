@@ -18,20 +18,22 @@ import java.util.logging.Logger;
 public class frmNuevoBodeguero extends javax.swing.JFrame {
 
     ctrlBodegueroAdmin bodeguero = new ctrlBodegueroAdmin();
+    frmBodegueroAdmin bAdmin = new frmBodegueroAdmin();
     private int idActual;
+    private frmBodegueroAdmin bodegueroAdmin;
 
     /**
      * Creates new form frmNuevoBodeguero
      */
-    public frmNuevoBodeguero() {
+    public frmNuevoBodeguero(frmBodegueroAdmin bodegueroAdmin) {
         try {
             initComponents();
-
+            this.bodegueroAdmin = bodegueroAdmin;
             // Obtén el último ID almacenado en la base de datos
             int ultimoIdAlmacenado = bodeguero.obtenerUltimoIdAlmacenado();
 
             // Muestra el siguiente ID en el formulario
-            lblID.setText(String.valueOf(ultimoIdAlmacenado+1));
+            lblID.setText(String.valueOf(ultimoIdAlmacenado + 1));
         } catch (SQLException ex) {
             // Manejar la excepción
             ex.printStackTrace();
@@ -389,38 +391,45 @@ public class frmNuevoBodeguero extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombreActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-    
-         try {
-        // Obtener los valores necesarios
-        String nombreUsuario = txtUsuario.getText();
-        char[] contrasenaArray = txtContrasena.getPassword();
-        char[] confirmarContrasenaArray = txtConfirmarContrasena.getPassword();
 
-        // Convertir los arrays de caracteres a cadenas
-        String contrasena = new String(contrasenaArray);
-        String confirmarContrasena = new String(confirmarContrasenaArray);
+        try {
+            // Obtener los valores necesarios
+            String nombreUsuario = txtUsuario.getText();
+            char[] contrasenaArray = txtContrasena.getPassword();
+            char[] confirmarContrasenaArray = txtConfirmarContrasena.getPassword();
 
-        // Verificar si las contraseñas coinciden
-        if (!contrasena.equals(confirmarContrasena)) {
-            JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
-            return;  // Salir del método si las contraseñas no coinciden
+            // Convertir los arrays de caracteres a cadenas
+            String contrasena = new String(contrasenaArray);
+            String confirmarContrasena = new String(confirmarContrasenaArray);
+
+            // Verificar si las contraseñas coinciden
+            if (!contrasena.equals(confirmarContrasena)) {
+                JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+                return;  // Salir del método si las contraseñas no coinciden
+            }
+
+            // Llamar a AgregarBodeguero con la contraseña
+            bodeguero.AgregarBodeguero(nombreUsuario, contrasena);
+
+            // Limpiar los campos después de agregar un bodeguero si es necesario
+            txtNombre.setText("");
+            txtContrasena.setText("");
+            txtConfirmarContrasena.setText("");
+
+            // Actualizar la tabla después de agregar un bodeguero
+            bodegueroAdmin.actualizarTabla();
+
+            // Mostrar mensaje de éxito
+            JOptionPane.showMessageDialog(this, "Bodeguero guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            // Cerrar el formulario
+            this.dispose();
+        } catch (Exception e) {
+            // Manejar cualquier excepción que pueda ocurrir al agregar el bodeguero
+            e.printStackTrace();
+            // Mostrar mensaje de error si es necesario
+            JOptionPane.showMessageDialog(this, "Error al guardar el bodeguero", "Error", JOptionPane.ERROR_MESSAGE);
         }
-
-        // Llamar a AgregarBodeguero con la contraseña
-        bodeguero.AgregarBodeguero(nombreUsuario, contrasena);
-        
-
-        //Limpiar los campos después de agregar un bodeguero si es necesario
-         txtNombre.setText("");
-         txtContrasena.setText("");
-         txtConfirmarContrasena.setText("");
-
-        //  cerrar el formulario
-         this.dispose();
-    } catch (Exception e) {
-        // Manejar cualquier excepción que pueda ocurrir al agregar el bodeguero
-        e.printStackTrace();
-    }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
@@ -466,7 +475,10 @@ public class frmNuevoBodeguero extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmNuevoBodeguero().setVisible(true);
+       
+                frmBodegueroAdmin bodegueroAdmin = new frmBodegueroAdmin();
+                frmNuevoBodeguero nBodeguero = new frmNuevoBodeguero(bodegueroAdmin);
+                nBodeguero.setVisible(true);
             }
         });
     }

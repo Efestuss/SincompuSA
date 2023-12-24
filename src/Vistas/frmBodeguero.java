@@ -34,7 +34,7 @@ import javax.swing.table.TableColumn;
 public class frmBodeguero extends javax.swing.JFrame {
 
     private static String usuario = "";
-    private static String contraseña = "";
+    private static String contrasena = "";
     private static frmBodeguero bodeguero;
 
     /**
@@ -61,7 +61,7 @@ public class frmBodeguero extends javax.swing.JFrame {
         }
         jDateFechaYHoraActual.setEnabled(false);
         lblNombreUsuario.setText(usuario);
-        this.contraseña = contrasena;
+        this.contrasena = contrasena;
         this.bodeguero = bodeguero;
 
         try {
@@ -527,7 +527,7 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     private void btnIventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseClicked
 
-       
+
     }//GEN-LAST:event_btnIventarioMouseClicked
 
     private void btnIventarioMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseEntered
@@ -545,9 +545,16 @@ public class frmBodeguero extends javax.swing.JFrame {
     private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
 
         String nombre = lblNombreUsuario.getText();
-        frmReportesBodeguero reportes = new frmReportesBodeguero(bodeguero, nombre, contraseña);
-        reportes.setVisible(true);
-        this.dispose();
+        frmReportesBodeguero reportes = new frmReportesBodeguero(bodeguero, nombre, contrasena);
+        if (reportes.obtenerCantidadFilasTablaReportes() > 0) {
+            reportes.setVisible(true);
+            this.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay datos disponibles", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+
     }//GEN-LAST:event_btnReportesMouseClicked
 
     private void btnReportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseEntered
@@ -599,7 +606,7 @@ public class frmBodeguero extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto para modificar.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            frmBodeguero frmBodeguero = new frmBodeguero(usuario, contraseña);
+            frmBodeguero frmBodeguero = new frmBodeguero(usuario, contrasena);
             // Verificar si frmProveedor está inicializado
             if (frmBodeguero == null) {
                 // Si no está inicializado, muestra un mensaje de error o realiza alguna acción apropiada.
@@ -677,7 +684,7 @@ public class frmBodeguero extends javax.swing.JFrame {
 
     // Método para obtener la contraseña
     public String obtenerContrasena() {
-        return contraseña;
+        return contrasena;
     }
 
     private String calcularEstado(int cantidad) {
@@ -705,10 +712,12 @@ public class frmBodeguero extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-   // Método para actualizar el nombre de usuario
+    // Método para actualizar el nombre de usuario
+
     public void actualizarNombreUsuario(String nuevoNombreUsuario) {
         lblNombreUsuario.setText(nuevoNombreUsuario);
     }
+
     /**
      * @param args the command line arguments
      */
@@ -739,7 +748,7 @@ public class frmBodeguero extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmBodeguero(usuario, contraseña).setVisible(true);
+                new frmBodeguero(usuario, contrasena).setVisible(true);
             }
         });
     }

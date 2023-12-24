@@ -27,7 +27,7 @@ import oracle.jdbc.clio.annotations.Debug.Level;
 public class frmReportesBodeguero extends javax.swing.JFrame {
 
     private static String usuario = "";
-    private static String contraseña = "";
+    private static String contrasena = "";
     private Inventario inventario;
     private static frmBodeguero bodeguero;
 
@@ -38,7 +38,7 @@ public class frmReportesBodeguero extends javax.swing.JFrame {
         initComponents();
         this.bodeguero = bodeguero;
         lblNombreUsuario.setText(usuario);
-        this.contraseña = contrasena;
+        this.contrasena = contrasena;
 
         try {
             configurarRenderizadorEstado(); // Llama al método para configurar el renderizador de "Estado"
@@ -52,7 +52,9 @@ public class frmReportesBodeguero extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(frmBodeguero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
     }
-
+ public int obtenerCantidadFilasTablaReportes() {
+        return jTableInventario.getRowCount();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -497,7 +499,7 @@ public class frmReportesBodeguero extends javax.swing.JFrame {
     private void btnIventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseClicked
 
         String nombre = lblNombreUsuario.getText();
-        frmBodeguero inventario = new frmBodeguero(nombre, contraseña);
+        frmBodeguero inventario = new frmBodeguero(nombre, contrasena);
         inventario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnIventarioMouseClicked
@@ -704,7 +706,7 @@ public class frmReportesBodeguero extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 
-                new frmReportesBodeguero(bodeguero, usuario, contraseña).setVisible(true);
+                new frmReportesBodeguero(bodeguero, usuario, contrasena).setVisible(true);
             }
         });
     }

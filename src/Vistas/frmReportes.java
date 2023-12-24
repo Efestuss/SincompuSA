@@ -4,8 +4,21 @@
  */
 package Vistas;
 
+import Controlador.ctrlProveedor;
+import Controlador.ctrlReportes;
+import Modelo.Proveedor;
+import Modelo.Reporte;
 import java.awt.Color;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -18,6 +31,71 @@ public class frmReportes extends javax.swing.JFrame {
      */
     public frmReportes() {
         initComponents();
+
+        try {
+            configurarRenderizadorEstado();
+            cargarDatos();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(frmReportes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public int obtenerCantidadFilasTablaReportes() {
+        return jTableReportes.getRowCount();
+    }
+
+    public void cargarDatos() throws ClassNotFoundException {
+        DefaultTableModel modelo = (DefaultTableModel) jTableReportes.getModel();
+        modelo.setRowCount(0); // Limpia los datos existentes en la tabla
+        int cantidadDatos = 0;
+        String TotalDatos = "";
+        ctrlReportes controlador = new ctrlReportes();
+        List<Reporte> reportes = controlador.obtenerReportes();
+        for (Reporte reporte : reportes) {
+            modelo.addRow(new Object[]{reporte.getIdProducto(), reporte.getNombre(), reporte.getCantidad(), reporte.getPrecio(), reporte.getCategoria(), reporte.getProveedor(), reporte.getEstado(), reporte.getFechaModificacion()});
+            cantidadDatos++;
+
+            TotalDatos = Integer.toString(cantidadDatos);
+            lblTotalResultados.setText(TotalDatos);
+
+        }
+    }
+
+    private String calcularEstado(int cantidad) {
+        return (cantidad == 0) ? "AGOTADO" : "EN STOCK";
+    }
+
+    public void configurarRenderizadorEstado() {
+        TableColumn estadoColumn = jTableReportes.getColumnModel().getColumn(6);
+        estadoColumn.setCellRenderer(new frmReportes.CustomComboBoxRenderer());
+    }
+
+    // Renderizador de JComboBox personalizado
+    class CustomComboBoxRenderer extends JComboBox<String> implements TableCellRenderer {
+
+        CustomComboBoxRenderer() {
+            addItem("EN STOCK");
+            addItem("AGOTADO");
+            setEditable(false); // Establecer el JComboBox como no editable
+
+        }
+
+        @Override
+        public java.awt.Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            int cantidad = Integer.parseInt(table.getValueAt(row, 2).toString()); // Obtener la cantidad
+
+            if (cantidad == 0) {
+                setSelectedItem("AGOTADO");
+                setBackground(Color.RED); // Fondo rojo para "AGOTADO"
+            } else {
+                setSelectedItem("EN STOCK");
+                setBackground(Color.GREEN); // Fondo verde para "EN STOCK"
+            }
+
+            return this;
+        }
     }
 
     /**
@@ -51,6 +129,9 @@ public class frmReportes extends javax.swing.JFrame {
         salirPanel = new javax.swing.JPanel();
         lblLogout = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
+        btnBodeguero = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         panelSuperior = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -59,12 +140,13 @@ public class frmReportes extends javax.swing.JFrame {
         lblExit = new javax.swing.JLabel();
         bgPanelTabla = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableReportes = new javax.swing.JTable();
         bgPanelBotones = new javax.swing.JPanel();
         bgPanelBotonNuevo = new javax.swing.JPanel();
         btnBuscar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        txtBusqueda = new javax.swing.JTextField();
+        lblTotal = new javax.swing.JLabel();
+        lblTotalResultados = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -75,6 +157,7 @@ public class frmReportes extends javax.swing.JFrame {
         bgPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         sideBarPanel.setBackground(new java.awt.Color(209, 230, 236));
+        sideBarPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnProductos.setBackground(new java.awt.Color(71, 71, 170));
         btnProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -120,6 +203,8 @@ public class frmReportes extends javax.swing.JFrame {
                 .addComponent(jLabel9))
         );
 
+        sideBarPanel.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 219, 380, -1));
+
         btnProveedores.setBackground(new java.awt.Color(71, 71, 170));
         btnProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -163,6 +248,8 @@ public class frmReportes extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel4))
         );
+
+        sideBarPanel.add(btnProveedores, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 266, 380, -1));
 
         btnIventario.setBackground(new java.awt.Color(71, 71, 170));
         btnIventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -209,6 +296,8 @@ public class frmReportes extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
+        sideBarPanel.add(btnIventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 316, 380, -1));
+
         btnReportes.setBackground(new java.awt.Color(128, 128, 197));
         btnReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReportes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -253,8 +342,11 @@ public class frmReportes extends javax.swing.JFrame {
                 .addComponent(jLabel8))
         );
 
+        sideBarPanel.add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 366, 380, -1));
+
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logo-PhotoRoom.png-PhotoRoom.png"))); // NOI18N
+        sideBarPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 56, 356, 78));
 
         BtnOpcion7.setBackground(new java.awt.Color(72, 61, 79));
 
@@ -346,36 +438,53 @@ public class frmReportes extends javax.swing.JFrame {
                 .addComponent(salirPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        javax.swing.GroupLayout sideBarPanelLayout = new javax.swing.GroupLayout(sideBarPanel);
-        sideBarPanel.setLayout(sideBarPanelLayout);
-        sideBarPanelLayout.setHorizontalGroup(
-            sideBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnIventario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnReportes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(sideBarPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(BtnOpcion7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        sideBarPanel.add(BtnOpcion7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 548, -1, -1));
+
+        btnBodeguero.setBackground(new java.awt.Color(71, 71, 170));
+        btnBodeguero.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBodeguero.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBodegueroMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBodegueroMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBodegueroMouseExited(evt);
+            }
+        });
+
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/resign.png"))); // NOI18N
+
+        jLabel20.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("BODEGUERO");
+
+        javax.swing.GroupLayout btnBodegueroLayout = new javax.swing.GroupLayout(btnBodeguero);
+        btnBodeguero.setLayout(btnBodegueroLayout);
+        btnBodegueroLayout.setHorizontalGroup(
+            btnBodegueroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnBodegueroLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(216, Short.MAX_VALUE))
         );
-        sideBarPanelLayout.setVerticalGroup(
-            sideBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sideBarPanelLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
-                .addComponent(btnProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnIventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                .addComponent(BtnOpcion7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        btnBodegueroLayout.setVerticalGroup(
+            btnBodegueroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnBodegueroLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(btnBodegueroLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel20))
         );
+
+        sideBarPanel.add(btnBodeguero, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 380, -1));
 
         bgPanel.add(sideBarPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 600));
 
@@ -430,7 +539,7 @@ public class frmReportes extends javax.swing.JFrame {
         panelSuperiorLayout.setHorizontalGroup(
             panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSuperiorLayout.createSequentialGroup()
-                .addContainerGap(141, Short.MAX_VALUE)
+                .addContainerGap(271, Short.MAX_VALUE)
                 .addGroup(panelSuperiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSuperiorLayout.createSequentialGroup()
                         .addComponent(jLabel11)
@@ -456,26 +565,25 @@ public class frmReportes extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        bgPanel.add(panelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 710, 90));
+        bgPanel.add(panelSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 840, 90));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Id_Producto", "Nombre", "Cantidad", "Precio", "Categoria"
+                "Id_Producto", "Nombre", "Cantidad", "Precio", "Categoria", "Proveedor", "Estado", "Fecha Modificación"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jTableReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jTableReportes.setRowHeight(40);
+        jScrollPane1.setViewportView(jTableReportes);
 
         javax.swing.GroupLayout bgPanelTablaLayout = new javax.swing.GroupLayout(bgPanelTabla);
         bgPanelTabla.setLayout(bgPanelTablaLayout);
         bgPanelTablaLayout.setHorizontalGroup(
             bgPanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
         );
         bgPanelTablaLayout.setVerticalGroup(
             bgPanelTablaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -484,7 +592,7 @@ public class frmReportes extends javax.swing.JFrame {
                 .addGap(0, 1, Short.MAX_VALUE))
         );
 
-        bgPanel.add(bgPanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 710, 370));
+        bgPanel.add(bgPanelTabla, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 230, 840, 370));
 
         bgPanelBotonNuevo.setForeground(new java.awt.Color(9, 206, 60));
         bgPanelBotonNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -501,14 +609,19 @@ public class frmReportes extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/search.png"))); // NOI18N
         bgPanelBotonNuevo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
+        lblTotal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTotal.setText("Total Resultados:");
+
         javax.swing.GroupLayout bgPanelBotonesLayout = new javax.swing.GroupLayout(bgPanelBotones);
         bgPanelBotones.setLayout(bgPanelBotonesLayout);
         bgPanelBotonesLayout.setHorizontalGroup(
             bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(txtBusqueda, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(lblTotal)
                 .addGap(18, 18, 18)
+                .addComponent(lblTotalResultados, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 497, Short.MAX_VALUE)
                 .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
@@ -516,23 +629,24 @@ public class frmReportes extends javax.swing.JFrame {
             bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
                 .addContainerGap(19, Short.MAX_VALUE)
-                .addGroup(bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(bgPanelBotonesLayout.createSequentialGroup()
-                        .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
-                        .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))))
+                .addComponent(bgPanelBotonNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgPanelBotonesLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(bgPanelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTotalResultados)
+                    .addComponent(lblTotal))
+                .addGap(15, 15, 15))
         );
 
-        bgPanel.add(bgPanelBotones, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, 710, 80));
+        bgPanel.add(bgPanelBotones, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 90, 840, 80));
 
         jLabel19.setBackground(new java.awt.Color(176, 200, 250));
         jLabel19.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 36)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setText("REPORTES");
-        bgPanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 710, 60));
+        bgPanel.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 840, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -597,7 +711,7 @@ public class frmReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnProveedoresMouseExited
 
     private void btnIventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIventarioMouseClicked
-        
+
         frmInventario inventario = new frmInventario();
         inventario.setVisible(true);
         this.dispose();
@@ -649,11 +763,11 @@ public class frmReportes extends javax.swing.JFrame {
     }//GEN-LAST:event_lblLogoutMouseClicked
 
     private void lblLogoutMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseEntered
-        salirPanel.setBackground(new Color(72,89,185));
+        salirPanel.setBackground(new Color(72, 89, 185));
     }//GEN-LAST:event_lblLogoutMouseEntered
 
     private void lblLogoutMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLogoutMouseExited
-        salirPanel.setBackground(new Color(72,61,79));
+        salirPanel.setBackground(new Color(72, 61, 79));
     }//GEN-LAST:event_lblLogoutMouseExited
 
     private void lblExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblExitMouseClicked
@@ -668,12 +782,33 @@ public class frmReportes extends javax.swing.JFrame {
         jPanelExit.setBackground(new Color(131, 97, 150));
     }//GEN-LAST:event_lblExitMouseExited
 
+    private void btnBodegueroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBodegueroMouseClicked
+        frmBodegueroAdmin bodeguero = new frmBodegueroAdmin();
+        bodeguero.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBodegueroMouseClicked
+
+    private void btnBodegueroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBodegueroMouseEntered
+        resetColor(btnProveedores);
+        resetColor(btnProductos);
+        resetColor(btnIventario);
+        resetColor(btnReportes);
+        setColor(btnBodeguero);
+    }//GEN-LAST:event_btnBodegueroMouseEntered
+
+    private void btnBodegueroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBodegueroMouseExited
+        resetColor(btnProveedores);
+        resetColor(btnProductos);
+        resetColor(btnIventario);
+        setColor(btnReportes);
+        resetColor(btnBodeguero);
+    }//GEN-LAST:event_btnBodegueroMouseExited
+
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     //Métodos para establecer y resetear colores 
-
     void resetColor(JPanel panel) {
         panel.setBackground(new Color(71, 71, 170));
     }
@@ -681,6 +816,7 @@ public class frmReportes extends javax.swing.JFrame {
     void setColor(JPanel panel) {
         panel.setBackground(new Color(128, 128, 197));
     }
+
     /**
      * @param args the command line arguments
      */
@@ -722,6 +858,7 @@ public class frmReportes extends javax.swing.JFrame {
     private javax.swing.JPanel bgPanelBotonNuevo;
     private javax.swing.JPanel bgPanelBotones;
     private javax.swing.JPanel bgPanelTabla;
+    private javax.swing.JPanel btnBodeguero;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JPanel btnIventario;
     private javax.swing.JPanel btnProductos;
@@ -732,8 +869,10 @@ public class frmReportes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
@@ -746,13 +885,14 @@ public class frmReportes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelExit;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableReportes;
     private javax.swing.JLabel lblExit;
     private javax.swing.JLabel lblLogout;
     private javax.swing.JLabel lblNombreUsuario;
+    private javax.swing.JLabel lblTotal;
+    private javax.swing.JLabel lblTotalResultados;
     private javax.swing.JPanel panelSuperior;
     private javax.swing.JPanel salirPanel;
     private javax.swing.JPanel sideBarPanel;
-    private javax.swing.JTextField txtBusqueda;
     // End of variables declaration//GEN-END:variables
 }

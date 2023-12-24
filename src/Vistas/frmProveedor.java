@@ -21,8 +21,9 @@ import javax.swing.table.DefaultTableModel;
  * @author Angelo Meza
  */
 public class frmProveedor extends javax.swing.JFrame {
-    
+
     private DefaultTableModel modeloTabla;
+
     /**
      * Creates new form frmProveedor
      */
@@ -37,7 +38,7 @@ public class frmProveedor extends javax.swing.JFrame {
             };
             jTableProveedor.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             cargarDatos();
-             
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(frmProveedor.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,6 +76,9 @@ public class frmProveedor extends javax.swing.JFrame {
         salirPanel = new javax.swing.JPanel();
         lblLogout = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
+        btnBodeguero = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         panelSuperior = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -104,6 +108,7 @@ public class frmProveedor extends javax.swing.JFrame {
         bgPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         sideBarPanel.setBackground(new java.awt.Color(209, 230, 236));
+        sideBarPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnProductos.setBackground(new java.awt.Color(71, 71, 170));
         btnProductos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -149,6 +154,8 @@ public class frmProveedor extends javax.swing.JFrame {
                 .addComponent(jLabel9))
         );
 
+        sideBarPanel.add(btnProductos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 219, 380, -1));
+
         btnProveedores.setBackground(new java.awt.Color(128, 128, 197));
         btnProveedores.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -192,6 +199,8 @@ public class frmProveedor extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel4))
         );
+
+        sideBarPanel.add(btnProveedores, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 266, 380, -1));
 
         btnIventario.setBackground(new java.awt.Color(71, 71, 170));
         btnIventario.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -238,6 +247,8 @@ public class frmProveedor extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
+        sideBarPanel.add(btnIventario, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 316, 380, -1));
+
         btnReportes.setBackground(new java.awt.Color(71, 71, 170));
         btnReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReportes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -282,8 +293,11 @@ public class frmProveedor extends javax.swing.JFrame {
                 .addComponent(jLabel8))
         );
 
+        sideBarPanel.add(btnReportes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 366, 380, -1));
+
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logo-PhotoRoom.png-PhotoRoom.png"))); // NOI18N
+        sideBarPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 56, 356, 78));
 
         BtnOpcion7.setBackground(new java.awt.Color(72, 61, 79));
 
@@ -375,36 +389,53 @@ public class frmProveedor extends javax.swing.JFrame {
                 .addComponent(salirPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        javax.swing.GroupLayout sideBarPanelLayout = new javax.swing.GroupLayout(sideBarPanel);
-        sideBarPanel.setLayout(sideBarPanelLayout);
-        sideBarPanelLayout.setHorizontalGroup(
-            sideBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnProveedores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnIventario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnReportes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(sideBarPanelLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(BtnOpcion7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        sideBarPanel.add(BtnOpcion7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 548, -1, -1));
+
+        btnBodeguero.setBackground(new java.awt.Color(71, 71, 170));
+        btnBodeguero.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBodeguero.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBodegueroMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnBodegueroMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnBodegueroMouseExited(evt);
+            }
+        });
+
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/resign.png"))); // NOI18N
+
+        jLabel20.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel20.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel20.setText("BODEGUERO");
+
+        javax.swing.GroupLayout btnBodegueroLayout = new javax.swing.GroupLayout(btnBodeguero);
+        btnBodeguero.setLayout(btnBodegueroLayout);
+        btnBodegueroLayout.setHorizontalGroup(
+            btnBodegueroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnBodegueroLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(216, Short.MAX_VALUE))
         );
-        sideBarPanelLayout.setVerticalGroup(
-            sideBarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sideBarPanelLayout.createSequentialGroup()
-                .addGap(56, 56, 56)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
-                .addComponent(btnProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnProveedores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnIventario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                .addComponent(BtnOpcion7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        btnBodegueroLayout.setVerticalGroup(
+            btnBodegueroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnBodegueroLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(btnBodegueroLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jLabel20))
         );
+
+        sideBarPanel.add(btnBodeguero, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 380, -1));
 
         bgPanel.add(sideBarPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 600));
 
@@ -675,10 +706,16 @@ public class frmProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIventarioMouseExited
 
     private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
-
         frmReportes reportes = new frmReportes();
-        reportes.setVisible(true);
-        this.dispose();
+
+        // Verificar si la tabla está vacía antes de abrir el formulario
+        if (reportes.obtenerCantidadFilasTablaReportes() > 0) {
+            reportes.setVisible(true);
+            this.dispose();
+            System.out.println("Hay datos");
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay datos disponibles", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnReportesMouseClicked
 
     private void btnReportesMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseEntered
@@ -812,6 +849,28 @@ public class frmProveedor extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bgPanelBotonEliminarMouseClicked
 
+    private void btnBodegueroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBodegueroMouseClicked
+        frmBodegueroAdmin bodeguero = new frmBodegueroAdmin();
+        bodeguero.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBodegueroMouseClicked
+
+    private void btnBodegueroMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBodegueroMouseEntered
+        resetColor(btnProveedores);
+        resetColor(btnProductos);
+        resetColor(btnIventario);
+        resetColor(btnReportes);
+        setColor(btnBodeguero);
+    }//GEN-LAST:event_btnBodegueroMouseEntered
+
+    private void btnBodegueroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBodegueroMouseExited
+        setColor(btnProveedores);
+        resetColor(btnProductos);
+        resetColor(btnIventario);
+        resetColor(btnReportes);
+        resetColor(btnBodeguero);
+    }//GEN-LAST:event_btnBodegueroMouseExited
+
     public void datos() {
 
     }
@@ -892,6 +951,7 @@ public class frmProveedor extends javax.swing.JFrame {
     private javax.swing.JPanel bgPanelBotonNuevo;
     private javax.swing.JPanel bgPanelBotones;
     private javax.swing.JPanel bgPanelTabla;
+    private javax.swing.JPanel btnBodeguero;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JPanel btnIventario;
     private javax.swing.JButton btnModificar;
@@ -906,8 +966,10 @@ public class frmProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;

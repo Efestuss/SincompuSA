@@ -42,7 +42,7 @@ public class frmAdmin extends javax.swing.JFrame {
             };
             jTableProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
             cargarDatos();
-            
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(frmAdmin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -709,8 +709,15 @@ public class frmAdmin extends javax.swing.JFrame {
     private void btnReportesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseClicked
 
         frmReportes reportes = new frmReportes();
-        reportes.setVisible(true);
-        this.dispose();
+
+        // Verificar si la tabla está vacía antes de abrir el formulario
+        if (reportes.obtenerCantidadFilasTablaReportes() > 0) {
+            reportes.setVisible(true);
+            this.dispose();
+            System.out.println("Hay datos");
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay datos disponibles", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
 
     }//GEN-LAST:event_btnReportesMouseClicked
 
@@ -720,7 +727,7 @@ public class frmAdmin extends javax.swing.JFrame {
         resetColor(btnProductos);
         resetColor(btnIventario);
         setColor(btnReportes);
-        
+
     }//GEN-LAST:event_btnReportesMouseEntered
 
     private void btnReportesMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReportesMouseExited
@@ -749,7 +756,7 @@ public class frmAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-          int filaSeleccionada = jTableProductos.getSelectedRow();
+        int filaSeleccionada = jTableProductos.getSelectedRow();
 
         if (filaSeleccionada == -1) {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un producto para eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -780,7 +787,7 @@ public class frmAdmin extends javax.swing.JFrame {
         try {
             // Fila seleccionada
             int filaSeleccionada = jTableProductos.getSelectedRow();
-            
+
             if (filaSeleccionada == -1) {
                 JOptionPane.showMessageDialog(this, "Por favor, seleccione un proveedor para modificar.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -792,15 +799,15 @@ public class frmAdmin extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "frmProveedor no está inicializado.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             String idProducto = jTableProductos.getValueAt(filaSeleccionada, 0).toString();
             String nombre = jTableProductos.getValueAt(filaSeleccionada, 1).toString();
             String cantidadStr = jTableProductos.getValueAt(filaSeleccionada, 2).toString();
             int cantidad = Integer.parseInt(cantidadStr);
             String precio = jTableProductos.getValueAt(filaSeleccionada, 3).toString();
-            String categoria = (String)jTableProductos.getValueAt(filaSeleccionada, 4).toString();
+            String categoria = (String) jTableProductos.getValueAt(filaSeleccionada, 4).toString();
             String proveedor = jTableProductos.getValueAt(filaSeleccionada, 5).toString();
-            
+
             // Instanciar la clase que contiene el formulario deseado
             frmModificarProducto modificarProducto = new frmModificarProducto(this, idProducto, nombre, cantidad, precio, categoria, proveedor);
             modificarProducto.setVisible(true);

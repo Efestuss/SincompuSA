@@ -159,14 +159,12 @@ public class frmMiPerfilBodeguero extends javax.swing.JFrame {
                     .addComponent(checkBoxUsuario))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(checkBoxPass)
                         .addGap(16, 16, 16))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPassContra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel5)
@@ -292,7 +290,7 @@ public class frmMiPerfilBodeguero extends javax.swing.JFrame {
             }
 
             // Validar que las contraseñas coincidan
-            if (!sonContraseñasValidas(nuevaContrasenaChars, nuevaContrasenaConfirmChars)) {
+            if (!sonContrasenasValidas(nuevaContrasenaChars, nuevaContrasenaConfirmChars)) {
                 JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden. Por favor, verifique.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -324,7 +322,7 @@ public class frmMiPerfilBodeguero extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     // Método para verificar si las contraseñas coinciden
-    private boolean sonContraseñasValidas(char[] contrasena, char[] confirmacion) {
+    private boolean sonContrasenasValidas(char[] contrasena, char[] confirmacion) {
         return Arrays.equals(contrasena, confirmacion);
     }
 

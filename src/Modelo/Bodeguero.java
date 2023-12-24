@@ -9,18 +9,18 @@ public class Bodeguero {
     private int id;
     private String nombre;
     private String nombreUsuario;
-    private String contraseña;
-    private String confContraseña;
+    private String contrasena;
+    private String confContrasena;
     private String direccion;
     private String telefono;
     private String email;
 
-    public Bodeguero(int id, String nombre, String nombreUsuario, String contraseña, String confContraseña, String direccion, String telefono, String email) {
+    public Bodeguero(int id, String nombre, String nombreUsuario, String contrasena, String confContrasena, String direccion, String telefono, String email) {
         this.id = id;
         this.nombre = nombre;
         this.nombreUsuario = nombreUsuario;
-        this.contraseña = contraseña;
-        this.confContraseña = confContraseña;
+        this.contrasena = contrasena;
+        this.confContrasena = confContrasena;
         this.direccion = direccion;
         this.telefono = telefono;
         this.email = email;
@@ -50,20 +50,20 @@ public class Bodeguero {
         this.nombreUsuario = nombreUsuario;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
-    public String getConfContraseña() {
-        return confContraseña;
+    public String getConfContrasena() {
+        return confContrasena;
     }
 
-    public void setConfContraseña(String confContraseña) {
-        this.confContraseña = confContraseña;
+    public void setConfContrasena(String confContrasena) {
+        this.confContrasena = confContrasena;
     }
 
     public String getDireccion() {
