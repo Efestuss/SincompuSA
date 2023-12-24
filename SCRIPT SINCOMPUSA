@@ -229,28 +229,37 @@ END;
 /
 
 --Procedimiento para actualizar la cantidad en el inventario
-create or replace NONEDITIONABLE PROCEDURE ModificarCantidadInventario(
+CREATE OR REPLACE NONEDITIONABLE PROCEDURE ModificarCantidadInventario(
     p_IdProducto IN VARCHAR2,
     p_NuevaCantidad IN NUMBER
 ) AS
+    v_FechaModificacion DATE;
+    v_Estado VARCHAR2(50);
 BEGIN
+    -- Obtener la fecha y hora actual
+    SELECT SYSTIMESTAMP INTO v_FechaModificacion FROM DUAL;
+
     -- Actualizar la cantidad del producto en el inventario
     UPDATE Inventario
     SET Cantidad = p_NuevaCantidad
     WHERE Id_Producto = p_IdProducto;
 
+    -- Obtener el nuevo estado en función de la cantidad
+    SELECT CASE WHEN p_NuevaCantidad > 0 THEN 'EN STOCK' ELSE 'AGOTADO' END
+    INTO v_Estado
+    FROM DUAL;
+
+    -- Insertar un registro en la tabla Reportes
+    INSERT INTO Reportes (Id_Producto, Nombre, Cantidad, Precio, Categoria, Proveedor, Estado, Fecha_Modificacion)
+    SELECT Id_Producto, Nombre, Cantidad, Precio, Categoria, Proveedor, v_Estado, v_FechaModificacion
+    FROM Inventario
+    WHERE Id_Producto = p_IdProducto;
+
     -- Confirmar la actualización
     COMMIT;
 END;
+/
 
-CREATE OR REPLACE TRIGGER actualizar_cantidad
-AFTER UPDATE OF Cantidad ON Inventario
-FOR EACH ROW
-BEGIN
-    UPDATE Productos
-    SET Cantidad = :NEW.Cantidad
-    WHERE Id_Producto = :NEW.Id_Producto;
-END;
 
 select *from inventario
 
@@ -269,7 +278,7 @@ BEGIN
 END;
 /
 select *from usuarios
---Procedimiento para actualizar usuario
+
 CREATE OR REPLACE PROCEDURE ACTUALIZARUSUARIO(
     P_NOMBREUSUARIO IN VARCHAR2,
     P_NUEVONOMBREUSUARIO IN VARCHAR2,
@@ -298,3 +307,42 @@ BEGIN
 
 END ACTUALIZARUSUARIO;
 /
+
+-- Crear la tabla Reportes con el formato deseado para Fecha_Modificacion
+CREATE TABLE Reportes (
+    Id_Producto VARCHAR2(50),
+    Nombre VARCHAR2(100),
+    Cantidad NUMBER,
+    Precio NUMBER,
+    Categoria VARCHAR2(50),
+    Proveedor VARCHAR2(50),
+    Estado VARCHAR2(50),
+    Fecha_Modificacion TIMESTAMP
+);
+
+-- Crear un formato personalizado para la columna Fecha_Modificacion
+CREATE OR REPLACE TRIGGER reportes_formato_fecha
+BEFORE INSERT ON Reportes
+FOR EACH ROW
+BEGIN
+    :NEW.Fecha_Modificacion := TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'DD-MON-YY HH.MI.SS PM'), 'DD-MON-YY HH:MI:SS PM');
+END;
+/
+
+
+
+select *from reportes
+
+-- Crear un procedimiento almacenado para eliminar un bodeguero 
+CREATE OR REPLACE PROCEDURE EliminarBodeguero(
+    p_IdBodeguero IN VARCHAR2
+) AS
+BEGIN
+    -- Eliminar el proveedor con el ID especificado
+    DELETE FROM USUARIOS 
+    WHERE Id = p_IdBodeguero;
+    -- Confirmar la eliminación
+    COMMIT;
+END;
+
+select *from REPORTES
