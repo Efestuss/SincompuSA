@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class ctrlBodegueroAdmin {
 

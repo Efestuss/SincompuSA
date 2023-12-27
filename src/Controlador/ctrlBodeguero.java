@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class ctrlBodeguero {
 
