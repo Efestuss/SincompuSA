@@ -367,7 +367,7 @@ public class frmInventario extends javax.swing.JFrame {
         lblNombreUsuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblNombreUsuario.setForeground(new java.awt.Color(204, 204, 204));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNombreUsuario.setText("Angelo");
+        lblNombreUsuario.setText("Fausto");
 
         salirPanel.setBackground(new java.awt.Color(72, 61, 79));
 
@@ -555,7 +555,7 @@ public class frmInventario extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/search.png"))); // NOI18N
         bgPanelBotonNuevo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
-        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una categoria...", "Metales", "Madera" }));
+        cmbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una categoría...", "Metales", "Madera", "Ceramicas", "Materiales Petreos", "Materiales compuestos" }));
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

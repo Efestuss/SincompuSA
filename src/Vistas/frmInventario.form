@@ -541,7 +541,7 @@
                       <Color blue="cc" green="cc" red="cc" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Angelo"/>
+                    <Property name="text" type="java.lang.String" value="Fausto"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JPanel" name="salirPanel">
@@ -894,10 +894,13 @@
             <Component class="javax.swing.JComboBox" name="cmbCategoria">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="3">
-                    <StringItem index="0" value="Seleccione una categoria..."/>
+                  <StringArray count="6">
+                    <StringItem index="0" value="Seleccione una categor&#xed;a..."/>
                     <StringItem index="1" value="Metales"/>
                     <StringItem index="2" value="Madera"/>
+                    <StringItem index="3" value="Ceramicas"/>
+                    <StringItem index="4" value="Materiales Petreos"/>
+                    <StringItem index="5" value="Materiales compuestos"/>
                   </StringArray>
                 </Property>
               </Properties>

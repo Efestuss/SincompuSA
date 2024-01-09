@@ -324,7 +324,7 @@ public class frmProveedor extends javax.swing.JFrame {
         lblNombreUsuario.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblNombreUsuario.setForeground(new java.awt.Color(204, 204, 204));
         lblNombreUsuario.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblNombreUsuario.setText("Angelo");
+        lblNombreUsuario.setText("Fausto");
 
         salirPanel.setBackground(new java.awt.Color(72, 61, 79));
 
