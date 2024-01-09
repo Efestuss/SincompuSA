@@ -3,6 +3,7 @@ package Modelo;
 /**
  *
  * @author Angie Buñay
+ 
  */
 
 //Clase para manejo de excepciones del login. 
