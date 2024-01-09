@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Angelo Meza
+ * @author Justin Erazo
  */
 public class ctrlProveedor {
 
