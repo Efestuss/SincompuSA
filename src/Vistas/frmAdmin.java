@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Angelo Meza
+ * @author Fausto Veloz
  */
 public class frmAdmin extends javax.swing.JFrame {
 
