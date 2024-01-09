@@ -2,7 +2,7 @@ package Modelo;
 
 /**
  *
- * @author Angelo Meza
+ * @author Fausto Veloz
  */
 public class Producto {
 
