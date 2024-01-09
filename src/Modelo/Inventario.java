@@ -2,7 +2,7 @@ package Modelo;
 
 /**
  *
- * @author Angelo Meza
+ * @author Ericka Buñay
  */
 
 public class Inventario extends Producto {
