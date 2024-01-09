@@ -2,7 +2,7 @@ package Modelo;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class Bodeguero {
 
