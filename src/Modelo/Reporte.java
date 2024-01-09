@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class Reporte {
 
