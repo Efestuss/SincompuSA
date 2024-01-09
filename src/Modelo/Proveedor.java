@@ -2,7 +2,7 @@ package Modelo;
 
 /**
  *
- * @author Angelo Meza
+ * @author Angie Buñay
  */
 public class Proveedor {
     private String idProveedor;
