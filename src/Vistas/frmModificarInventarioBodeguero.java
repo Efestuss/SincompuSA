@@ -24,7 +24,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Angelo Meza
+ * @author Angie Buñay
  */
 public class frmModificarInventarioBodeguero extends javax.swing.JFrame {
 
