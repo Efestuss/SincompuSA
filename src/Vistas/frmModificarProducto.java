@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class frmModificarProducto extends javax.swing.JFrame {
 
