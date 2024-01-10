@@ -25,7 +25,7 @@ import javax.swing.table.TableColumn;
 
 /**
  *
- * @author Angelo Meza
+ * @author Fausto Veloz
  */
 public class frmReportes extends javax.swing.JFrame {
 
