@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 
 /**
  *
- * @author Angelo Meza
+ * @author Justin Erazo
  */
 public class LoginTest {
 
