@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Angelo Meza
+ * @author Fausto Veloz
  */
 public class frmNuevoBodeguero extends javax.swing.JFrame {
 
