@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Angelo Meza
+ * @author Justin Erazo
  */
 public class frmNuevoProveedor extends javax.swing.JFrame {
 
