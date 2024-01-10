@@ -18,7 +18,7 @@ import javax.swing.JSpinner;
 
 /**
  *
- * @author Angelo Meza
+ * @author Erika Buñay
  */
 public class frmNuevoProducto extends javax.swing.JFrame {
 
