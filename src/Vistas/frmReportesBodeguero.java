@@ -22,7 +22,7 @@ import oracle.jdbc.clio.annotations.Debug.Level;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class frmReportesBodeguero extends javax.swing.JFrame {
 
