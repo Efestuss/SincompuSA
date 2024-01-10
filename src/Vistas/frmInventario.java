@@ -24,7 +24,7 @@ import javax.swing.table.TableRowSorter;
 
 /**
  *
- * @author Angelo Meza
+ * @author Juan Ochoa
  */
 public class frmInventario extends javax.swing.JFrame {
 
