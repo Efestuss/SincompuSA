@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Angelo Meza
+ * @author Erika Buñay
  */
 public class frmBodegueroAdmin extends javax.swing.JFrame {
 
