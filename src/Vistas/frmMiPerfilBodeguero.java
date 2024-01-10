@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Angelo Meza
+ * @author Justin Erazo
  */
 public class frmMiPerfilBodeguero extends javax.swing.JFrame {
 
