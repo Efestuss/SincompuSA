@@ -13,7 +13,7 @@ import oracle.jdbc.clio.annotations.Debug.Level;
 
 /**
  *
- * @author Angelo Meza
+ * @author Fausto Veloz
  */
 public class frmModificarProveedor extends javax.swing.JFrame {
 
